@@ -10,8 +10,8 @@ const db = require('./db');
  */
 function createBooking(data) {
   const stmt = db.prepare(`
-    INSERT INTO bookings (name, phone, service, date, time, comment, tg_username, tg_chat_id)
-    VALUES (@name, @phone, @service, @date, @time, @comment, @tg_username, @tg_chat_id)
+    INSERT INTO bookings (name, phone, service, date, time, comment, tg_username, tg_chat_id, contact_method)
+    VALUES (@name, @phone, @service, @date, @time, @comment, @tg_username, @tg_chat_id, @contact_method)
   `);
 
   const result = stmt.run({
@@ -23,6 +23,7 @@ function createBooking(data) {
     comment: data.comment || '',
     tg_username: data.tg_username || null,
     tg_chat_id: data.tg_chat_id || null,
+    contact_method: data.contact_method || 'phone',
   });
 
   return getBookingById(result.lastInsertRowid);

@@ -42,7 +42,7 @@ router.use(apiLimiter);
  * }
  */
 router.post('/booking', async (req, res) => {
-  const { name, phone, service, date, time, comment, tg_username, tg_chat_id } = req.body;
+  const { name, phone, service, date, time, comment, tg_username, tg_chat_id, contact_method } = req.body;
 
   // ── Input validation ──────────────────────────────────────────────────
 
@@ -99,6 +99,7 @@ router.post('/booking', async (req, res) => {
       comment: (comment || '').trim(),
       tg_username: tg_username?.trim() || null,
       tg_chat_id: tg_chat_id ? parseInt(tg_chat_id, 10) : null,
+      contact_method: contact_method || 'phone',
     });
 
     logger.info(`API: Booking created successfully ID=${booking.id}`);

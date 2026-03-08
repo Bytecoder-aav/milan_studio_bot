@@ -9,7 +9,6 @@ const {
   buildBookingKeyboard,
   clientAcceptedMessage,
   clientConfirmedMessage,
-  clientCompletedMessage,
   clientCancelledMessage,
 } = require('../utils/messages');
 const logger = require('../utils/logger');
@@ -64,7 +63,7 @@ async function acceptBooking(bookingId) {
   logger.info(`Booking #${bookingId} accepted`);
 
   await updateAdminGroupMessage(booking);
-  await notifyClient(booking, clientAcceptedMessage());
+  await notifyClient(booking, clientAcceptedMessage(booking));
 
   return booking;
 }
@@ -97,12 +96,8 @@ async function confirmBooking(bookingId) {
 async function completeBooking(bookingId) {
   const booking = repo.updateBookingStatus(bookingId, 'completed');
   if (!booking) throw new Error(`Booking #${bookingId} not found`);
-
   logger.info(`Booking #${bookingId} completed`);
-
   await updateAdminGroupMessage(booking);
-  await notifyClient(booking, clientCompletedMessage());
-
   return booking;
 }
 

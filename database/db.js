@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/logger');
 
-const DB_PATH = process.env.DB_PATH || '/app/data/bookings.db';
+const DB_PATH = process.env.DB_PATH || './database/bookings.db';
 
 // Ensure database directory exists
 const dbDir = path.dirname(path.resolve(DB_PATH));
@@ -45,6 +45,7 @@ function initializeDatabase() {
       tg_username TEXT    DEFAULT NULL,             -- client Telegram username (optional)
       tg_chat_id  INTEGER DEFAULT NULL,             -- client Telegram chat ID (optional)
       group_msg_id INTEGER DEFAULT NULL,            -- message ID in admin group
+      contact_method TEXT DEFAULT 'phone'           -- phone | telegram
       created_at  TEXT    NOT NULL DEFAULT (datetime('now')),
       updated_at  TEXT    NOT NULL DEFAULT (datetime('now'))
     );
@@ -79,6 +80,14 @@ function initializeDatabase() {
       UPDATE bookings SET updated_at = datetime('now') WHERE id = NEW.id;
     END;
   `);
+
+  // Migration: add contact_method column if not exists (for existing DBs)
+  try {
+    db.exec("ALTER TABLE bookings ADD COLUMN contact_method TEXT DEFAULT 'phone'");
+    logger.info('Migration: added contact_method column');
+  } catch (e) {
+    // Column already exists — ignore
+  }
 
   logger.info('Database initialized successfully.');
 }

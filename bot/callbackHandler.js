@@ -48,10 +48,6 @@ async function handleCallbackQuery(query) {
         await handleConfirm(queryId, bookingId, from);
         break;
 
-      case 'complete':
-        await handleComplete(queryId, bookingId, from);
-        break;
-
       case 'cancel':
         await handleCancel(queryId, bookingId, from, message);
         break;
@@ -87,15 +83,6 @@ async function handleConfirm(queryId, bookingId, admin) {
     show_alert: false,
   });
   logger.info(`Admin @${admin.username} confirmed booking #${bookingId}`);
-}
-
-async function handleComplete(queryId, bookingId, admin) {
-  await bookingService.completeBooking(bookingId);
-  await bot.answerCallbackQuery(queryId, {
-    text: `🏁 Заявку #${bookingId} завершено.`,
-    show_alert: false,
-  });
-  logger.info(`Admin @${admin.username} completed booking #${bookingId}`);
 }
 
 async function handleCancel(queryId, bookingId, admin, message) {

@@ -4,7 +4,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors'); 
 const bot = require('./bot/botInstance');
 const { registerCallbackHandlers } = require('./bot/callbackHandler');
 const { registerCommandHandlers } = require('./bot/commandHandler');
@@ -26,11 +25,6 @@ if (missing.length > 0) {
 // ─── Express App Setup ────────────────────────────────────────────────────
 
 const app = express();
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'x-api-key']
-}));
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
 const BOT_TOKEN = process.env.BOT_TOKEN;
@@ -38,16 +32,6 @@ const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || '';
 
 // Parse JSON bodies
 app.use(express.json());
-// Дозволити запити з вашого сайту
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-});
 
 // Trust proxy headers (needed when behind nginx/Caddy)
 app.set('trust proxy', 1);
