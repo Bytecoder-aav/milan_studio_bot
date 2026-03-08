@@ -45,7 +45,7 @@ function initializeDatabase() {
       tg_username TEXT    DEFAULT NULL,             -- client Telegram username (optional)
       tg_chat_id  INTEGER DEFAULT NULL,             -- client Telegram chat ID (optional)
       group_msg_id INTEGER DEFAULT NULL,            -- message ID in admin group
-      contact_method TEXT DEFAULT 'phone'           -- phone | telegram
+      contact_method TEXT DEFAULT 'phone',          -- phone | telegram
       created_at  TEXT    NOT NULL DEFAULT (datetime('now')),
       updated_at  TEXT    NOT NULL DEFAULT (datetime('now'))
     );
