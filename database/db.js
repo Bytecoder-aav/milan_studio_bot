@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/logger');
 
-const DB_PATH = process.env.DB_PATH || './database/bookings.db';
+const DB_PATH = process.env.DB_PATH || '/app/data/bookings.db';
 
 // Ensure database directory exists
 const dbDir = path.dirname(path.resolve(DB_PATH));
