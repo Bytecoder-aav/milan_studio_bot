@@ -10,6 +10,7 @@
     "delete-webhook": "node scripts/deleteWebhook.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "node-telegram-bot-api": "^0.64.0",
     "better-sqlite3": "^9.4.3",

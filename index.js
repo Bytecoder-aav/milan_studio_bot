@@ -4,6 +4,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors'); 
 const bot = require('./bot/botInstance');
 const { registerCallbackHandlers } = require('./bot/callbackHandler');
 const { registerCommandHandlers } = require('./bot/commandHandler');
@@ -25,6 +26,11 @@ if (missing.length > 0) {
 // ─── Express App Setup ────────────────────────────────────────────────────
 
 const app = express();
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-api-key']
+}));
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
 const BOT_TOKEN = process.env.BOT_TOKEN;
